@@ -3,8 +3,8 @@ import time
 
 # Load driver and set it in other needed
 driver = webdriver.Safari()
-from utils.elementSearcher import SetDriver
-SetDriver(driver)
+from utils import set_driver
+set_driver(driver)
 
 # Import tests
 from tests import tests

@@ -4,10 +4,12 @@ from selenium.webdriver.common.by import By
 
 from searchConfig import searchConfig
 
-def SetDriver(_driver: webdriver.Safari):
+# Initializing
+def set_driver(_driver: webdriver.Safari):
     global driver
     driver = _driver
 
+# Element searching
 def find_element(key: str, searchParent: WebElement = None):
     if key not in searchConfig:
         raise Exception("The given key was not found in searchconfig! Key: " + key)
@@ -18,8 +20,7 @@ def find_element(key: str, searchParent: WebElement = None):
         raise Exception("The given type isn't found!")
 
     return (driver if searchParent is None else searchParent).find_element(searchType, searchConfig[key]['value'])
-
-def find_elements(key: str, searchParent: WebElement=None):
+def find_elements(key: str, searchParent: WebElement = None):
     if key not in searchConfig:
         raise Exception("The given key was not found in searchconfig! Key: " + key)
     
@@ -41,3 +42,8 @@ def SearchTypeStrToType(type: str):
         case 'PARTIAL_LINK_TEXT': return By.PARTIAL_LINK_TEXT
         case 'XPATH': return By.XPATH
         case _: return None
+
+# Assertion
+def check_assertion(condition, message):
+    if not condition:
+        raise AssertionError(message)

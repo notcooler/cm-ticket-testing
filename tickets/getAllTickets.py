@@ -1,4 +1,4 @@
-from utils.elementSearcher import find_element, find_elements
+from utils import find_element, find_elements
 
 def get_all_tickets():
     parentElement = find_element('ticketsRow')
@@ -10,7 +10,7 @@ def get_all_tickets():
         nameTextElement = find_element('ticketNameText', ticketElement)
         price = float(priceTextElement.text[2:].replace(',', '.'))
         if int(price) != 0: # Checks if service fee is needed
-            price += 0.85
+            price += 0.85 # change hard coding
 
         tickets.append({
             'name': nameTextElement.text,

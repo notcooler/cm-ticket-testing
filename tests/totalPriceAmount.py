@@ -1,9 +1,8 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 
-
 from tickets.getAllTickets import get_all_tickets
 from tickets.addTicketsToBasket import add_tickets_to_basket
-from utils.elementSearcher import find_element
+from utils import find_element, check_assertion
 from random import randint
 
 def run(driver: WebDriver):
@@ -27,4 +26,5 @@ def run(driver: WebDriver):
     
     # Assert
     totalPrice = float(find_element('totalText').text[2:].replace(',', '.'))
-    return totalPrice == supposedTotalPrice
+    check_assertion(totalPrice == supposedTotalPrice,
+                    f"Total price is not correct! Expected: {supposedTotalPrice}, got: {totalPrice}")
