@@ -1,45 +1,56 @@
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from searchConfig import searchConfig
-
 # Initializing
-def set_driver(_driver: WebDriver):
+def initialize(_driver: WebDriver, _searchConfig: dict):
     global driver
+    global searchConfig
+
     driver = _driver
+    searchConfig = _searchConfig
 
 # Element searching
 def find_element(key: str, searchParent: WebElement = None):
+    # Check if the key is in searchConfig
     if key not in searchConfig:
         raise Exception("The given key was not found in searchconfig! Key: " + key)
     
-    # searcher = driver if searchParent is None else searchParent
-    searchType: By = SearchTypeStrToType(searchConfig[key]['type'])
-    if searchType is None:
-        raise Exception("The given type isn't found!")
-
-    return (driver if searchParent is None else searchParent).find_element(searchType, searchConfig[key]['value'])
-def find_elements(key: str, searchParent: WebElement = None):
-    if key not in searchConfig:
-        raise Exception("The given key was not found in searchconfig! Key: " + key)
-    
+    # Checks if we should search from the root or from the parent element
     searcher = driver if searchParent is None else searchParent
+
+    # Get the search type and value
     searchType: By = SearchTypeStrToType(searchConfig[key]['type'])
     if searchType is None:
         raise Exception("The given type isn't found!")
 
+    # Finally search for the element
+    return searcher.find_element(searchType, searchConfig[key]['value'])
+
+def find_elements(key: str, searchParent: WebElement = None):
+    # Check if the key is in searchConfig
+    if key not in searchConfig:
+        raise Exception("The given key was not found in searchconfig! Key: " + key)
+    
+    # Checks if we should search from the root or from the parent element
+    searcher = driver if searchParent is None else searchParent
+
+    # Get the search type and value
+    searchType: By = SearchTypeStrToType(searchConfig[key]['type'])
+    if searchType is None:
+        raise Exception("The given type isn't found!")
+
+    # Finally search for the element
     return searcher.find_elements(searchType, searchConfig[key]['value'])
 
 def SearchTypeStrToType(type: str):
     match type:
-        case 'ID': return By.ID
-        case 'NAME': return By.NAME
-        case 'TAG_NAME': return By.TAG_NAME
-        case 'CLASS_NAME': return By.CLASS_NAME
-        case 'CSS_SELECTOR': return By.CSS_SELECTOR
-        case 'LINK_TEXT': return By.LINK_TEXT
-        case 'PARTIAL_LINK_TEXT': return By.PARTIAL_LINK_TEXT
-        case 'XPATH': return By.XPATH
-        case _: return None
+        case 'ID': return By.ID # Find element by ID
+        case 'NAME': return By.NAME # Find element by name e.g. name="value"
+        case 'TAG_NAME': return By.TAG_NAME # Find element by tag name e.g. <div>
+        case 'CLASS_NAME': return By.CLASS_NAME # Find element by class name e.g. class="value"
+        case 'CSS_SELECTOR': return By.CSS_SELECTOR # Find element by css selector e.g. #value
+        case 'LINK_TEXT': return By.LINK_TEXT # Find element by link text e.g. <a>text</a>
+        case 'PARTIAL_LINK_TEXT': return By.PARTIAL_LINK_TEXT # Find element by partial link text e.g. <a>text</a>
+        case 'XPATH': return By.XPATH # Find element by xpath
+        case _: return None # Return None if the type isn't found, results in a throw of an exception

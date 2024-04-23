@@ -1,5 +1,6 @@
 from utils.elementSearcher import find_element, find_elements
 
+# This function is used to get all avaiable tickets from the page and fetch their data
 def get_all_tickets(serviceFee: float = None):
     parentElement = find_element('ticketsRow')
     ticketElements = find_elements('firstChildren', parentElement)
@@ -12,7 +13,7 @@ def get_all_tickets(serviceFee: float = None):
         
         if serviceFee is not None: # Checks if we should check service fee
             if int(price) != 0: # Checks if service fee is needed
-                price += 0.85 # change hard coding
+                price += serviceFee
 
         tickets.append({
             'name': nameTextElement.text,

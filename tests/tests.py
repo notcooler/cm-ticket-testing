@@ -7,6 +7,7 @@ import tests.totalPriceAmount as totalPriceAmount
 def discover_tests():
     tests = []
     
+    # Add all test functions here
     tests.append(example.run)
     tests.append(totalPriceAmount.run)
     
@@ -14,7 +15,7 @@ def discover_tests():
 
 def run_all_tests(driver: WebDriver, url: str):
     for test_func in discover_tests():
-        print(f"Running test: {test_func.__module__}")
+        print(f"------------------\nRunning test: {test_func.__module__}")
         try:
             test_func(driver)
             print("Test passed.")
@@ -24,6 +25,5 @@ def run_all_tests(driver: WebDriver, url: str):
             print(f"Test\'s code itself failed: {e}")
         
         # Refresh the page to start the next test
-        driver.delete_all_cookies()
-        driver.get(url=url)
+        driver.get(url=url + "&cacheBuster=" + str(time.time()))
         time.sleep(3) # wait until page refreshed
