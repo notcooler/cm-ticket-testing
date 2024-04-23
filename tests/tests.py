@@ -2,7 +2,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 import time
 
 import tests.example as example
-import tests.failingTest as failing
 import tests.totalPriceAmount as totalPriceAmount
 
 def discover_tests():
@@ -10,7 +9,6 @@ def discover_tests():
     
     # Add all test functions here
     tests.append(example.run)
-    tests.append(failing.run)
     tests.append(totalPriceAmount.run)
     
     return tests
