@@ -9,8 +9,10 @@ from tests import tests
 
 # Load configs
 print("Loading configs...")
-with open('config.json') as f:
+with open('./configs/config.json') as f:
     config = json.load(f)
+with open('./configs/searchConfig.json') as f:
+    searchConfig = json.load(f)
 
 print("Loading driver...")
 runsLocally = False
@@ -21,7 +23,7 @@ driver = loadDriver(config, runsLocally)
 
 # Initialize element searcher util
 from utils.elementSearcher import initialize
-initialize(driver, config['searchConfig'])
+initialize(driver, searchConfig)
 
 # Open the page
 print("Opening the page...")
