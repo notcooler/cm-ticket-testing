@@ -2,7 +2,8 @@ from utils.elementSearcher import find_element, find_elements
 
 # This function is used to get all avaiable tickets from the page and fetch their data
 def get_all_tickets(serviceFee: float = None):
-    parentElement = find_element('ticketsRow')
+    parentElement = find_element('ticketsRow') # Gets the element/div where all the tickets are located
+    # Second specified element is the parent, it now searches from the perspective of the parent
     ticketElements = find_elements('firstChildren', parentElement)
     tickets = []
 
