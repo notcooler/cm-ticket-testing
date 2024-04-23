@@ -1,11 +1,12 @@
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from searchConfig import searchConfig
 
 # Initializing
-def set_driver(_driver: webdriver.Safari):
+def set_driver(_driver: WebDriver):
     global driver
     driver = _driver
 
@@ -42,8 +43,3 @@ def SearchTypeStrToType(type: str):
         case 'PARTIAL_LINK_TEXT': return By.PARTIAL_LINK_TEXT
         case 'XPATH': return By.XPATH
         case _: return None
-
-# Assertion
-def check_assertion(condition, message):
-    if not condition:
-        raise AssertionError(message)

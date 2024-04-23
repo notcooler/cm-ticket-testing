@@ -1,6 +1,6 @@
-from utils import find_element, find_elements
+from utils.elementSearcher import find_element, find_elements
 
-def get_all_tickets():
+def get_all_tickets(serviceFee: float = None):
     parentElement = find_element('ticketsRow')
     ticketElements = find_elements('firstChildren', parentElement)
     tickets = []
@@ -9,8 +9,10 @@ def get_all_tickets():
         priceTextElement = find_element('ticketPriceText', ticketElement)
         nameTextElement = find_element('ticketNameText', ticketElement)
         price = float(priceTextElement.text[2:].replace(',', '.'))
-        if int(price) != 0: # Checks if service fee is needed
-            price += 0.85 # change hard coding
+        
+        if serviceFee is not None: # Checks if we should check service fee
+            if int(price) != 0: # Checks if service fee is needed
+                price += 0.85 # change hard coding
 
         tickets.append({
             'name': nameTextElement.text,

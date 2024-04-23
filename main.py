@@ -1,21 +1,37 @@
+# Essentials
 from selenium import webdriver
-import time
-
-# Load driver and set it in other needed
-driver = webdriver.Safari()
-from utils import set_driver
-set_driver(driver)
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+import time, json
 
 # Import tests
 from tests import tests
 
-config = {
-    "url": "https://shop.yourticketprovider.nl/?productid=3ba44a39-1393-e9b6-f30e-25b5c61a6482&_ga=2.158438847.483138645.1713773460-927077746.1713773459",
-}
-driver.get(config['url'])
+# Load configs
+with open('mainConfig.json') as f:
+    config = json.load(f)
 
-# Wait for loading
-time.sleep(5) #todo: actually wait until fully loaded instead of 3 seconds
+# Load driver service
+driver_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+
+# Load driver options
+driver_options = Options()
+for option in config['browserLaunchOptions']:
+    driver_options.add_argument(option)
+
+# Finally load driver with options
+driver = webdriver.Chrome(service=driver_service, options=driver_options)
+
+# Set the driver in other needed files
+from utils.elementSearcher import set_driver
+set_driver(driver)
+
+# Open the page
+driver.get(config['url'])
+# Wait for page loading before running tests, TODO: wait until page loaded instead of 5 seconds
+time.sleep(5)
 
 # Run the tests
-tests.run_all_tests(driver=driver)
+tests.run_all_tests(driver=driver, url=config['url'])
