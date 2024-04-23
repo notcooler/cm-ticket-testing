@@ -1,5 +1,12 @@
-# Selenium testing for front-end with github actions
-_This project isn't made as a template for someone to use, but for cm.com. But I have coded it pretty generic enough so it may be possible to use it as a template._
+# Selenium testing with github actions
+__Disclaimer: This project isn't made as a template for easy and quick setup, but for cm.com as a autonomous front-end testing solution thing.__
+
+But if you want to use it for your own use case:
+1. Change the url to the url you want to test
+2. Clear the ``searchConfig.json`` file, if you want keep the example's. __NOT REQUIRED__
+3. The ``tickets/`` folder is really made for that page so you don't need it, but you can keep it as an example. __NOT REQUIRED__
+
+You don't need to change anything on actions side as it should just work.
 
 ## Setup
 Clone the repository and make sure you have chrome installed, install dependencies using: 
@@ -12,6 +19,8 @@ To run the tests, run:
 python3 main.py local
 ```
 If you are running it on your local computer, make sure to add the ``local`` argument to it. This makes sure no new chrome is installed and is easier to use. Without the local argument the code may assume it's running on actions. Check ``utils/loadDriver.py`` for further info.
+
+Or you can run it via github actions by running the ``runAllTests`` workflow.
 
 # Make your own test
 A barebones test should have atleast one test function where only one argument takes place named driver.
@@ -35,7 +44,7 @@ def run(driver: WebDriver):
     actualClicks = getClickedButtonCounter()
     assert_equal(expectedClicks, actualClicks, f"Not enough buttons clicked! Missing {expectedClicks - actualClicks} clicks...")
 ```
-I highly recommend for you to check more example tests first in the ``tests`` folder.
+__I highly recommend for you to check more example tests first in the ``tests`` folder.__
 
 ## How to use find_element(s) function
 The function takes 2 arguments, one called key which gets searched in the ``configs/searchConfig.json`` file.
@@ -58,4 +67,9 @@ And makes it more generic since all tests can access the ``find_element(s)`` fun
 
 The second argument ``parentElement`` isn't required and if it's given it will search from the perspective of the parent and not from the beginning of the page, really usefull.
 
+Once again checking the script ``utils/elementSearcher.py`` self is also a really nice and easy way to understand, since it's commented out.
+
 Using the ``find_element(s)`` function isn't required however, but is recommended to use. A good nice complex example of all this combined is in ``tests/totalPriceAmount.py``, and i am guessing it's explained enough.
+
+
+### That's it, good luck using it. :)
