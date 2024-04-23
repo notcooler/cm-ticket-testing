@@ -2,6 +2,7 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
+from webdriver_manager.core.utils import read_version_from_cmd
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import time, json
@@ -14,7 +15,8 @@ with open('mainConfig.json') as f:
     config = json.load(f)
 
 # Load driver service
-driver_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+driver_version = read_version_from_cmd('/usr/bin/chromium --version')
+driver_service = Service(ChromeDriverManager(driver_version=driver_version, chrome_type=ChromeType.CHROMIUM).install())
 
 # Load driver options
 driver_options = Options()
