@@ -3,10 +3,11 @@ import pytest
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--local',
+        '--isLocal',
         action='store',
     )
 
 @pytest.fixture
-def local(request):
-    return request.config.getoption('--local')
+def isLocal(request):
+    isLocal = request.config.getoption('--isLocal')
+    return isLocal == 'true' if isLocal else False

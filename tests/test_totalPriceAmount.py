@@ -11,8 +11,8 @@ testConfig = {
     'maxTicketChange': 7,
 }
 
-def test_run(local):
-    driver, config = setupTest(local)
+def test_run(isLocal):
+    driver, config = setupTest(isLocal)
     # Arrange
 
     # Finds all tickets and fetches their increase and decrease buttons, name and price.

@@ -1,8 +1,8 @@
 from utils.setup import setupTest
 
 # Every test needs the driver to be passed to it, type specifiying is not necessary
-def test_run(local):
-    driver, config = setupTest(local)
+def test_run(isLocal):
+    driver, config = setupTest(isLocal)
 
     # Arrange
     expectedResult = "Yourticketprovider | Ticketshop"
