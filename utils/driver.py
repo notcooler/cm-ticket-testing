@@ -8,6 +8,8 @@ from webdriver_manager.core.os_manager import PATTERN
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
+import time
+
 def loadDriver(config, runsLocally = False):
     if runsLocally:
         return webdriver.Chrome()
@@ -25,3 +27,9 @@ def loadDriver(config, runsLocally = False):
 
     # Finally load driver with options
     return webdriver.Chrome(service=driver_service, options=driver_options)
+
+def getDriverAndLoadPage(config, runsLocally, customUrl:str = None):
+    driver = loadDriver(config, runsLocally)
+    driver.get(customUrl if customUrl else config['url']) # Use custom url if provided, otherwise use the default one
+    time.sleep(5) # Wait for page to load
+    return driver

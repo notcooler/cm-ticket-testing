@@ -3,47 +3,38 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 # Initializing
-def initialize(_driver: WebDriver, _searchConfig: dict):
-    global driver
+def initialize(_searchConfig: dict):
     global searchConfig
-
-    driver = _driver
     searchConfig = _searchConfig
 
 # Element searching
-def find_element(key: str, searchParent: WebElement = None):
+def findElement(key: str, searcher: WebElement | WebDriver):
     # Check if the key is in searchConfig
     if key not in searchConfig:
         raise Exception("The given key was not found in searchconfig! Key: " + key)
-    
-    # Checks if we should search from the root or from the parent element
-    searcher = driver if searchParent is None else searchParent
 
     # Get the search type and value
-    searchType: By = SearchTypeStrToType(searchConfig[key]['type'])
+    searchType: By = searchTypeStrToType(searchConfig[key]['type'])
     if searchType is None:
         raise Exception("The given type isn't found!")
 
     # Finally search for the element
     return searcher.find_element(searchType, searchConfig[key]['value'])
 
-def find_elements(key: str, searchParent: WebElement = None):
+def findElements(key: str, searcher: WebElement | WebDriver):
     # Check if the key is in searchConfig
     if key not in searchConfig:
         raise Exception("The given key was not found in searchconfig! Key: " + key)
-    
-    # Checks if we should search from the root or from the parent element
-    searcher = driver if searchParent is None else searchParent
 
     # Get the search type and value
-    searchType: By = SearchTypeStrToType(searchConfig[key]['type'])
+    searchType: By = searchTypeStrToType(searchConfig[key]['type'])
     if searchType is None:
         raise Exception("The given type isn't found!")
 
     # Finally search for the element
     return searcher.find_elements(searchType, searchConfig[key]['value'])
 
-def SearchTypeStrToType(type: str):
+def searchTypeStrToType(type: str):
     match type:
         case 'ID': return By.ID # Find element by ID
         case 'NAME': return By.NAME # Find element by name e.g. name="value"

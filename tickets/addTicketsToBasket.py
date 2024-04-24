@@ -1,5 +1,5 @@
 
-def add_tickets_to_basket(tickets):
+def addTicketsToBasket(tickets):
     for ticket in tickets:
         for i in range(ticket['increase']): # Click the increase ticket button
             ticket['increaseButton'].click()

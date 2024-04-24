@@ -1,8 +1,9 @@
-from selenium.webdriver.remote.webdriver import WebDriver
-from utils.assertion import assert_equal
+from utils.setup import setupTest
 
 # Every test needs the driver to be passed to it, type specifiying is not necessary
-def run(driver: WebDriver):
+def test_run(local):
+    driver, config = setupTest(local)
+
     # Arrange
     expectedResult = "Yourticketprovider | Ticketshop"
     actualResult = driver.title
@@ -11,4 +12,4 @@ def run(driver: WebDriver):
     # Run test here, not needed in this case here!
 
     # Assert
-    assert_equal(expectedResult, actualResult, "Title is not correct!")
+    assert expectedResult == actualResult, "Title is not correct!"
