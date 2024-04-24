@@ -16,4 +16,4 @@ def calculateTotalPrice(tickets, minTicketChange: int, maxTicketChange: int):
         })
         
         expectedTotalPrice += ticketTotalPrice
-    return expectedTotalPrice
+    return round(expectedTotalPrice, 2)
