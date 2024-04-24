@@ -16,37 +16,35 @@ pip3 install -r requirements.txt
 
 To run the tests, run:
 ```sh
-python3 main.py local
+pytest --isLocal true
 ```
-If you are running it on your local computer, make sure to add the ``local`` argument to it. This makes sure no new chrome is installed and is easier to use. Without the local argument the code may assume it's running on actions. Check ``utils/loadDriver.py`` for further info.
+If you are running it on your local computer, make sure to add the ``--isLocal true`` argument to it. This makes sure no new chrome is installed and is easier to use. Without the local argument the code may assume it's running on actions. Check ``utils/loadDriver.py`` for further info.
 
 Or you can run it via github actions by running the ``runAllTests`` workflow.
 
 # Make your own test
-A barebones test should have atleast one test function where only one argument takes place named driver.
-Here is an example of an button clicking test.
+A barebones test should have atleast one test function where only one argument takes place named isLocal.
+Here is an example test.
 ```py
-from selenium.webdriver.remote.webdriver import WebDriver
-from utils.assertion import assert_equal
-from utils.elementSearcher import find_elements
-
+from utils.setup import setupTest
 
 # Every test needs the driver to be passed to it, type specifiying is not necessary
-def run(driver: WebDriver):
+def test_run(isLocal):
+    driver, config = setupTest(isLocal)
+
     # Arrange
-    expectedClicks = randint(1, 10)
-    buttons = find_elements('buttons')
+    expectedResult = "Yourticketprovider | Ticketshop"
+    actualResult = driver.title
 
     # Act
-    clickButtons(buttons, expectedClicks)
+    # Run test here, not needed in this case here!
 
     # Assert
-    actualClicks = getClickedButtonCounter()
-    assert_equal(expectedClicks, actualClicks, f"Not enough buttons clicked! Missing {expectedClicks - actualClicks} clicks...")
+    assert expectedResult == actualResult, "Title is not correct!"
 ```
 __I highly recommend for you to check more example tests first in the ``tests`` folder.__
 
-## How to use find_element(s) function
+## How to use findElement(s) function
 The function takes 2 arguments, one called key which gets searched in the ``configs/searchConfig.json`` file.
 Every key has a an type and value attached to it like this:
 ```json
@@ -61,15 +59,17 @@ Every key has a an type and value attached to it like this:
     },
 }
 ```
-Once the key gets fetched it calls the ``searcher.find_element or find_elements`` function and passes the type and value argument to it.
+Once the key gets fetched it calls the ``searcher.findElement or findElements`` function and passes the type and value argument to it.
 This approach makes it more easy it find elements to intereact with them.
-And makes it more generic since all tests can access the ``find_element(s)`` function and it's config is easily changeable without touching the code.
+And makes it more generic since all tests can access the ``findElements(s)`` function and it's config is easily changeable without touching the code.
 
-The second argument ``parentElement`` isn't required and if it's given it will search from the perspective of the parent and not from the beginning of the page, really usefull.
+The second argument ``searcher`` can be one of the 2 things:
+1. ``WebDriver``, which results in searching from the root of page.
+2. ``WebElement``, which resulsts in searching from the elements perspective, thus not from the root of the page.
 
 Once again checking the script ``utils/elementSearcher.py`` self is also a really nice and easy way to understand, since it's commented out.
 
-Using the ``find_element(s)`` function isn't required however, but is recommended to use. A good nice complex example of all this combined is in ``tests/totalPriceAmount.py``, and i am guessing it's explained enough.
+Using the ``findElement(s)`` function isn't required however, but is recommended to use. A good nice complex example of all this combined is in ``tests/totalPriceAmount.py``, and i am guessing it's explained enough.
 
 
 ### That's it, good luck using it. :)
