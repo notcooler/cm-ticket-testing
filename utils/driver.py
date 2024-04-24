@@ -31,5 +31,5 @@ def loadDriver(config, runsLocally = False):
 def getDriverAndLoadPage(config, runsLocally, customUrl:str = None):
     driver = loadDriver(config, runsLocally)
     driver.get(customUrl if customUrl else config['url']) # Use custom url if provided, otherwise use the default one
-    time.sleep(3) # Wait for page to load
+    time.sleep(config['waitPageLoadDelay']) # Wait for page to load
     return driver

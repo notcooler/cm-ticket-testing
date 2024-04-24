@@ -8,5 +8,6 @@
         "--disable-extensions",
         "--no-sandbox",
         "--disable-dev-shm-usage"
-    ]
+    ],
+    "waitPageLoadDelay": 5
 }
