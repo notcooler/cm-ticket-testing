@@ -1,36 +1,33 @@
 trigger:
-- none  # This ensures the pipeline is only triggered manually
+- none  # Manually triggered
 
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- checkout: self
-
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.11.6'
-
-- script: |
-    apt list --installed
-  displayName: 'Installed package list'
-
-- script: |
-    sudo apt purge google-chrome-stable
-  displayName: 'Remove Chrome'
-
-- script: |
-    sudo apt purge chromium-browser
-  displayName: 'Remove default Chromium'
-
-- script: |
-    sudo apt install -y chromium-browser
-  displayName: 'Install a new Chromium'
-
-- script: |
-    pip install -r requirements.txt
-  displayName: 'Install all necessary packages from requirements.txt'
-
-- script: |
-    pytest
-  displayName: 'Run the tests...'
+jobs:
+- job: RunAllTests
+  displayName: 'Run Test Automation'
+  steps:
+  - checkout: self
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11.6'
+      addToPath: true
+  - script: |
+      apt list --installed
+    displayName: 'Installed package list'
+  - script: |
+      sudo apt purge google-chrome-stable
+    displayName: 'Remove Chrome'
+  - script: |
+      sudo apt purge chromium-browser
+    displayName: 'Remove default Chromium'
+  - script: |
+      sudo apt install -y chromium-browser
+    displayName: 'Install a new Chromium'
+  - script: |
+      pip install -r requirements.txt
+    displayName: 'Install all necessary packages from requirements.txt'
+  - script: |
+      pytest
+    displayName: 'Run the tests...'
