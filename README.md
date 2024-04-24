@@ -23,6 +23,10 @@ If you are running it on your local computer, make sure to add the ``--isLocal t
 Or you can run it via github actions by running the ``runAllTests`` workflow.
 
 # Make your own test
+For tests to get recognized by pytest are following 2 things important:
+1. The script that contains the test/tests should start with ``test_``, e.g. `test_TicketButtons.py`
+2. The function's name that runs the test, should also start with ``test_``, e.g. `test_totalPriceAmount`
+
 A barebones test should have atleast one test function where only one argument takes place named isLocal.
 Here is an example test.
 ```py
