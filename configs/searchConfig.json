@@ -32,5 +32,22 @@
     "totalText": {
         "type": "CLASS_NAME",
         "value": "summary-total-cost__test"
+    },
+
+    "summaryItems": {
+        "type": "CLASS_NAME",
+        "value": "side-summary-items"
+    },
+    "summaryItem": {
+        "type": "CLASS_NAME",
+        "value": "summary-item"
+    },
+    "summaryName": {
+        "type": "XPATH",
+        "value": "./div[1]/span"
+    },
+    "summaryPrice": {
+        "type": "XPATH",
+        "value": "./div[2]/strong"
     }
 }
